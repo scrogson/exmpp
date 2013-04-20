@@ -1,0 +1,21 @@
+% -*- mode: erlang -*-
+
+{application, Name, AppOpts} = lists:nth(1, CONFIG),
+
+%%%
+%%% If a git repository, Vsn is given by git describe
+%%%
+{vsn, BaseVsn} = lists:keyfind(vsn, 1, AppOpts),
+Vsn = case string:strip(os:cmd("git describe 2>/dev/null | sed 's/^v//' | sed 's/-\([0-9]\)-/-0\1-/'"), right, $\n) of
+	  "" -> BaseVsn;
+	  GitVsn -> GitVsn
+      end,
+
+%%%
+%%% Update vsn and modules in .app files
+%%%
+AppOpts2 = lists:ukeymerge(1, 
+	     lists:keysort(1, [{vsn, Vsn}]),
+	     lists:keysort(1, AppOpts)),
+
+[{application, Name, AppOpts2}].
