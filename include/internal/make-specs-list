@@ -8,7 +8,7 @@ use LWP::Simple;
 use File::Basename;
 use POSIX qw(strftime);
 
-our $SPECS_URL = 'http://www.xmpp.org/extensions/all.shtml';
+our $SPECS_URL = 'http://xmpp.org/xmpp-protocols/xmpp-extensions/';
 
 # OR'd regex.
 our $TYPE_EXCL1 = qr/(Humorous|JIG Formation|Procedural)/io;
@@ -52,26 +52,27 @@ sub main {
 	my $xep;
 
 	# Walk through the lines of $content.
+	$content =~ s/(<[^\/])/\r\n$1/g;
 	foreach $line (split /[\r\n]+/, $content) {
-		if ($line =~ /^<tr class='tablebody'>/o) {
+		if ($line =~ /^<tr class="tablebody/o) {
 			# XEP entry start.
 			push @xeps, $xep if %$xep;
 			$xep = {};
 		} elsif (!exists $xep->{'id'} &&
-		    $line =~ /^<td valign='top'><a href='([^']+)'>([^<]+)/o) {
-			# ID and URL.
-			$xep->{'id'} = $2;
-			$xep->{'url'} = $1;
-		} elsif ($line =~ /^<td valign='top'>([^<]+)/o) {
-			if (!exists $xep->{'name'}) {
-				$xep->{'name'} = $1;
-			} elsif (!exists $xep->{'type'}) {
-				$xep->{'type'} = $1;
-			} elsif (!exists $xep->{'status'}) {
-				$xep->{'status'} = $1;
-			} elsif (!exists $xep->{'date'}) {
-				$xep->{'date'} = $1;
-			}
+			 $line =~ /^<a href="([^"]+\.html)">(XEP-[^<]+)/o) {
+		    # ID and URL.
+		    $xep->{'id'} = $2;
+		    $xep->{'url'} = "http://xmpp.org" . $1;
+		} elsif ($line =~ /^<td valign="top">([^<]+)/o) {
+		    if (!exists $xep->{'name'}) {
+			$xep->{'name'} = $1;
+		    } elsif (!exists $xep->{'type'}) {
+			$xep->{'type'} = $1;
+		    } elsif (!exists $xep->{'status'}) {
+			$xep->{'status'} = $1;
+		    } elsif (!exists $xep->{'date'}) {
+			$xep->{'date'} = $1;
+		    }			    
 		}
 	}
 	push @xeps, $xep if %$xep;
