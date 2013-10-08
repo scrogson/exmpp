@@ -69,6 +69,7 @@ EOF
 		print "$id: $name\n";
 
 		# Fetch page.
+		print "  Fetching schema: $url\n";
 		my $content = get($url);
 		unless (defined $content) {
 			print STDERR "  Can't retrieve URL '$url'\n";
