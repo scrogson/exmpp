@@ -46,7 +46,7 @@ exmpp_known_attrs.hrl: $(srcdir)/exmpp_known_attrs.hrl.awk $(KNOWN_ATTRS_SOURCE)
 updateknown: $(MAKE_SPECS_LIST) $(EXTRACT_KNOWN)
 	@$(MAKE_SPECS_LIST) | $(EXTRACT_KNOWN)				\
 		$(KNOWN_NSS_SOURCE)					\
-		$(KNOWN_NAMES_SOURCE)					\
+		$(KNOWN_ELEMS_SOURCE)					\
 		$(KNOWN_ATTRS_SOURCE)
 
 .PHONY: updateknown
