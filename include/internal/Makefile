@@ -39,7 +39,8 @@ exmpp_known_attrs.hrl: $(srcdir)/exmpp_known_attrs.hrl.es $(KNOWN_ATTRS_SOURCE)
 # --------------------------------------------------------------------
 
 updateknown: $(MAKE_SPECS_LIST) $(EXTRACT_KNOWN)
-	@$(MAKE_SPECS_LIST) | $(EXTRACT_KNOWN)				\
+	@( $(MAKE_SPECS_LIST); cat occi-schemas.in )   			\
+		| $(EXTRACT_KNOWN)					\
 		$(KNOWN_NSS_SOURCE)					\
 		$(KNOWN_ELEMS_SOURCE)					\
 		$(KNOWN_ATTRS_SOURCE)

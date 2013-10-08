@@ -1,0 +1,9 @@
+# --------------------------------------------------------------------
+XEP:		TBD1
+NAME:		OCCI Schema
+URL:		http://redmine.ogf.org/projects/occi-wg/repository/revisions/xml-data-format/raw/schemas/occi.xsd
+
+# --------------------------------------------------------------------
+XEP:		TBD2
+NAME:		XMLSchema schema
+URL:		http://www.w3.org/2001/XMLSchema.xsd
